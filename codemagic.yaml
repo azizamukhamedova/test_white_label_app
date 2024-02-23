@@ -7,9 +7,6 @@ workflows:
     environment:
       flutter: stable
     scripts:
-      - name: Set up keystore
-        script: echo $CM_KEYSTORE | base64 --decode > $CM_KEYSTORE_PATH
-
       - name: Change Android app name
         script: sed -i.bak "s/android:label=.*/android:label=\"$APP_NAME\"/g" android/app/src/main/AndroidManifest.xml
      
