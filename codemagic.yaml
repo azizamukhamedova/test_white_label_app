@@ -1,0 +1,32 @@
+workflows:
+  android-client-release:
+    name: Android client release
+    instance_type: mac_mini_m1
+    labels:
+      - ${CLIENT_ID} # Helpful when you open your Codemagic's builds page 
+    environment:
+      flutter: stable
+    scripts:
+      - name: Change Android app name
+        script: sed -i.bak "s/android:label=.*/android:label=\"$APP_NAME\"/g" android/app/src/main/AndroidManifest.xml
+     
+      - name: Change Android package name
+        script: |
+          echo "android {  defaultConfig { applicationId '${PACKAGE_NAME}' }  }" > android/changePackage.gradle
+          echo "apply from: rootProject.file('changePackage.gradle')" >> android/app/build.gradle
+          
+      - name: Set client .env file
+        script: echo $DOTENV | base64 --decode > assets/client.env
+      
+      - name: Install dependencies
+        script: flutter packages pub get
+      
+      - name: Flutter build aab and automatic versioning
+        script: flutter build apk --split-per-abi
+    artifacts: 
+      - build/**/outputs/**/*.aab
+      - test-results/flutter.json
+    publishing:
+      email: 
+        recipients:
+          - aziza.m@jafton.com
