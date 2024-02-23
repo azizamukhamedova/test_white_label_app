@@ -23,12 +23,17 @@ workflows:
       
       - name: Flutter build aab and automatic versioning
         script: flutter build apk --split-per-abi
-    artifacts: 
+    artifacts:
       - build/**/outputs/**/*.aab
-      - test-results/flutter.json
+      - build/**/outputs/**/*.apk
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
     publishing:
       email: 
         recipients:
           - aziza.m@jafton.com
           - abdulloeshonhonov@gmail.com
+        notify:
+          success: true
+          failure: false
         
