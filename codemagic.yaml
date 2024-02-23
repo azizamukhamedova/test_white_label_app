@@ -16,7 +16,7 @@ workflows:
           echo "apply from: rootProject.file('changePackage.gradle')" >> android/app/build.gradle
           
       - name: Set client .env file
-        script: echo $DOTENV | base64 --decode > assets/client.env
+        script: echo $DOTENV | base64 --decode > .env
       
       - name: Install dependencies
         script: flutter packages pub get
