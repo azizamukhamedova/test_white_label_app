@@ -22,7 +22,7 @@ workflows:
         script: flutter packages pub get
       
       - name: Flutter build aab and automatic versioning
-        script: flutter build apk --split-per-abi
+        script: flutter build appbundle --release
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/*.apk
